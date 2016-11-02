@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from utils import newStory
 app = Flask(__name__)
 
@@ -8,7 +8,9 @@ def make():
 
 @app.route("/results/", methods = ["POST"])
 def result():
-    return "hi"
+    r = request.form
+    post = r['post']
+    return post
 if __name__ == '__main__':
     app.debug = True
     app.run()
