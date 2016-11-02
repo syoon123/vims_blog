@@ -4,24 +4,52 @@ import sqlite3
 
 f="storymaker.db"
 
+db = sqlite3.connect(f) #open if f exists, otherwise create
+c = db.cursor()    #facilitate db ops
+
+#Initializing Tables: should be executed once (?)
+q = "CREATE TABLE user (user TEXT, pass TEXT)"
+c.execute(q)
+
+q = "CREATE TABLE posts (user TEXT, pid INTEGER, sid INTEGER, content TEXT)"
+c.execute(q)
+
+#test data
+q = "INSERT INTO user VALUES(\'mcVans\', \'vanna\')"
+c.execute(q)
+q = "INSERT INTO user VALUES(\'mcKissy\', \'issac\')"
+c.execute(q)
+q = "INSERT INTO user VALUES(\'mcCow\', \'michael\')"
+c.execute(q)
+q = "INSERT INTO user VALUES(\'mcYoonibrow\', \'sarah\')"
+c.execute(q)
+
+q = "INSERT INTO posts VALUES(\'mcVans\', 0,0,\'hello\')"
+c.execute(q)
+q = "INSERT INTO posts VALUES(\'mcKissy\', 1,0,\'my\')"
+c.execute(q)
+q = "INSERT INTO posts VALUES(\'mcCow\', 1,1,\'name\')"
+c.execute(q)
+q = "INSERT INTO posts VALUES(\'mcYoonibrow\', 2,0,\'is\')"
+c.execute(q)
+
+
+
 app = Flask(__name__)
 app.secret_key = '<j\x9ch\x80+\x0b\xd2\xb6\n\xf7\x9dj\xb8\x0fmrO\xce\xcd\x19\xd49\xe5S\x1f^\x8d\xb8"\x89Z'
 
 def register(username, password):
-    #check if already registered in database
-            return "You are already registered."
-    #else write in new entry into database
+    #check if requested username is in TABLE user of database
+    return "You are already registered."
+    #else write in new entry into database (hash pass)
     return "You are now successfully registered."
 
-#def checkLogin(username,password):
-    #passFileReader = csv.reader(open(passFile))
-    #for i in passFileReader:
-    #    if username == i[0]:
-    #        if i[1] == hashlib.sha1(password).hexdigest():
-    #            return "You are logged in."
-    #        return "Incorrect password!"
-    #return "No such username"
-
+def checkLogin(username,password):
+    hash = hashlib.sha1(password).hexdigest()
+    ## check database if user-pass is correct
+    #  if correct login -> return ""
+    #  if no such username -> return "Incorrect Username"
+    #  if incorrect pass -> return "Incorrect password!"
 
 @app.route("/")
 @app.route("/homepage")
@@ -36,13 +64,14 @@ def login():
         return redirect(url_for("/"))
     return render_template("loginTemplate.html", status = "")
 
-@app.route("/authentication/", methods = ["GET", "POST"])
+#is there a way get rid of /authentication/ and just have everything in /login/ ?
+@app.route("/authentication/", methods = ["GET", "POST"])  #idk which it should be
 def authentication():
     if request.form["enter"] == "Register":
         register_message = register(request.form["user"],request.form["pass"])
-        return render_template("authentication.html", status = register_message)
+        return render_template("loginTemplate.html", status = register_message)
     if request.form["enter"] == "Login":
-        session["user"] = request.form["user"] #cookie
+        session["user"] = request.form["user"] 
         #login_message = checkLogin(request.form["user"],request.form["pass"])
         
         ##if correct login -> homepage
