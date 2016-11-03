@@ -5,12 +5,15 @@
     <link rel="stylesheet" type="text/css" href= "../static/basicStyle.css">
 </head>
 <body>
-	{{status}}<br>
-    <form action = "/authentication/" method = "POST">
-        Username: <input type = "text" name = "user" placeholder = "user"> <br>
-        Password: <input type = "password" name = "pass"> <br>
-        <input type = "submit" value = "Login" name = "enter">
-        <input type = "submit" value = "Register" name = "enter">
-    </form>
+    <div id="header"> <br><br><center> <h1> {{status}} </h1> </center><br><br> </div>
+    <div id = "body"> <br><br>
+        <form action = "/authentication/" method = "POST">
+            Username: <input type = "text" name = "user" placeholder = "user"> <br>
+            Password: <input type = "password" name = "pass"> <br>
+            <input type = "submit" value = "Login" name = "enter">
+            <input type = "submit" value = "Register" name = "enter">
+        </form>
+        <br><br>
+    </div>
 </body>
 </html>

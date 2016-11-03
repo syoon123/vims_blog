@@ -1,32 +1,34 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <title> VIMS Storypage </title>
     <link rel="stylesheet" type="text/css" href= "../static/basicStyle.css">
-  </head>
-  <body>
-    <p>Stories History</p><br>
-<!-- STORIES I'VE CONTRIBUTED TO
-database:  select sid (pid?) where "username of contributor" = username
- -> do this in main.py
+</head>
+<body>
+    <div class="header"><br><br><p>Stories History</p><br><br></div>
+    <!-- STORIES I'VE CONTRIBUTED TO
+    database:  select sid (pid?) where "username of contributor" = username
+    -> do this in main.py
+
+    <a href="{local link url}">{title of story}</a>
+-->
+
+<div class="header"><br><br><p>Recomended Stories</p><br><br></div>
+<!--OTHER STORIES ???
+select a few random stories from database and generate link to it?
 
 <a href="{local link url}">{title of story}</a>
 -->
-  <p>Recommended Stories</p><br>
-<!--OTHER STORIES ???
-  select a few random stories from database and generate link to it?
 
-<a href="{local link url}">{title of story}</a>
-  -->
-
-
+<div class="body"><br><br>
     <form action = "/newstory/">
-      <input type = "submit" value = "Create New Story"><br>
+        <input type = "submit" value = "Create New Story"><br>
     </form>
 
     <form action = "/logout/">
-      <input type = "submit" value = "Log out"> <br>
+        <input type = "submit" value = "Log out"> <br>
     </form>
+    <br><br></div>
 
-  </body>
+</body>
 </html>

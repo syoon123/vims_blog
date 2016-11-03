@@ -21,5 +21,5 @@ def contribute(storyid):
             return render_template('contributeForm.html')
 
 #for debugging purposes only
-#app.debug = True
-#app.run()
+app.debug = True
+app.run()
