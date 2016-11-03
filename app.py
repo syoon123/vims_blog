@@ -10,7 +10,8 @@ def make():
 def result():
     r = request.form
     post = r['post']
-    return post
+    return newStory.submit(post)
+    
 if __name__ == '__main__':
     app.debug = True
     app.run()
