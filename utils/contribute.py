@@ -3,7 +3,7 @@ import sqlite3
 #set proper template folder path
 app = Flask(__name__, template_folder = '../templates')
 
-def contribute(storyid):
+def addToStory(storyid):
     print "called 2"
     if 'user' not in session:
         #redirect(url_for('login'))
