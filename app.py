@@ -86,7 +86,6 @@ def logout():
 
 @app.route('/contribute/<int:storyid>')
 def add(storyid):
-    print "called"
     return contribute.addToStory(storyid)
 
 if __name__ == "__main__":

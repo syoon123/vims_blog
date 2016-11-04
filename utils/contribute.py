@@ -4,7 +4,6 @@ import sqlite3
 app = Flask(__name__, template_folder = '../templates')
 
 def addToStory(storyid):
-    print "called 2"
     if 'user' not in session:
         #redirect(url_for('login'))
         return render_template('loginTemplate.html', status = "")
