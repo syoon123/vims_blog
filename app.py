@@ -85,7 +85,7 @@ def logout():
     return redirect(url_for("login"))
 
 @app.route('/contribute/<int:storyid>')
-def contribute():
+def contribute(storyid):
     print "called"
     return contribute.contribute(storyid)
 
