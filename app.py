@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, url_for, session, redirect
-import hashlib
-import sqlite3
+import hashlib, sqlite3
+from utils import contribute
 
 f="storymaker.db"
 
@@ -83,6 +83,11 @@ def authentication():
 def logout():
     session.pop("user")
     return redirect(url_for("login"))
+
+@app.route('/contribute/<int:storyid>')
+def contribute():
+    print "called"
+    return contribute.contribute(storyid)
 
 if __name__ == "__main__":
     app.debug = True

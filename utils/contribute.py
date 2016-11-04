@@ -3,8 +3,8 @@ import sqlite3
 #set proper template folder path
 app = Flask(__name__, template_folder = '../templates')
 
-@app.route('/contribute/<int:storyid>')
 def contribute(storyid):
+    print "called 2"
     if 'user' not in session:
         #redirect(url_for('login'))
         return render_template('loginTemplate.html', status = "")
@@ -19,7 +19,3 @@ def contribute(storyid):
             return render_template('viewStory.html', text = 'nothing here yet...')
         else:
             return render_template('contributeForm.html')
-
-#for debugging purposes only
-app.debug = True
-app.run()
