@@ -92,15 +92,20 @@ def add(storyid):
 def addtoDB():
     storyid = request.form['sid']
     content = request.form['newText']
-    db = sqlite3.connect(f) 
-    c = db.cursor()  
+
+    db = sqlite3.connect(f)
+    c = db.cursor()
+
+    #add to proper story by proper user
     p = 0
     cmd = "INSERT INTO posts VALUES(" + "'" + session['user'] + "'" + "," + "'" + str(p) + "'" + "," + "'" + str(storyid) + "'" + "," + "'" + content + "')"
+
     c.execute(cmd)
+
     db.commit()
     db.close()
     return redirect(url_for('home'))
-   
+
 if __name__ == "__main__":
     app.debug = True
     app.run()
