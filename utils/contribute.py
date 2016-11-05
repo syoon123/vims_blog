@@ -16,5 +16,4 @@ def addToStory(storyid):
         for record in sel:
             if record[0] == session['user']:
                 return render_template('viewStory.html', text = 'nothing here yet...')
-        else:
-            return render_template('contributeForm.html', id = storyid)
+        return render_template('contributeForm.html', id = storyid)
