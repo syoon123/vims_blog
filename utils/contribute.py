@@ -13,8 +13,8 @@ def addToStory(storyid):
         c = db.cursor()
         q = "select user, sid from posts where sid == " + str(storyid)
         sel = c.execute(q)
-        if session['user'] in sel:
-            #redirect(url_for('viewstory'))
-            return render_template('viewStory.html', text = 'nothing here yet...')
+        for record in sel:
+            if record[0] == session['user']:
+                return render_template('viewStory.html', text = 'nothing here yet...')
         else:
             return render_template('contributeForm.html', id = storyid)
