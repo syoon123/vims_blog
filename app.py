@@ -4,8 +4,8 @@ from utils import contribute
 
 f="storymaker.db"
 
-db = sqlite3.connect(f) #open if f exists, otherwise create
-c = db.cursor()    #facilitate db ops
+#db = sqlite3.connect(f) #open if f exists, otherwise create
+#c = db.cursor()    #facilitate db ops
 
 #table already created, debug w/out
 
@@ -52,7 +52,7 @@ def checkLogin(username,password):
     #  if incorrect pass -> return "Incorrect password!"
 
 @app.route("/")
-@app.route("/homepage")
+@app.route("/homepage/")
 def home():
     if "user" not in session:
         return redirect(url_for("login"))
@@ -88,22 +88,19 @@ def logout():
 def add(storyid):
     return contribute.addToStory(storyid)
 
-
-@app.route('/addtoDB/', methods = ['POST'])
+@app.route('/addtoDB/', methods=['POST'])
 def addtoDB():
-    storyid = request.form['id']
+    storyid = 2
     content = request.form['newText']
-    f = 'storymaker.db'
-    db = sqlite3.connect(f)
-    c = db.cursor()
-    q = "select * from posts where sid == " + storyid
-    sel = c.execute(q)
+    print content
+    db = sqlite3.connect(f) 
+    c = db.cursor()  
     p = 0
-    for record in sel:
-        p = record[1]
-    p+=1
-    cmd = "insert into posts values(" + "'" + session['user'] + "'" + "," + "'" + str(p) + "'" + "," + "'" + storyid + "'" + "," + "'" + content + "')"
+    cmd = "INSERT INTO posts VALUES(" + "'" + session['user'] + "'" + "," + "'" + str(p) + "'" + "," + "'" + str(storyid) + "'" + "," + "'" + content + "')"
     c.execute(cmd)
+    db.commit()
+    db.close()
+    print "added to db"
     return redirect(url_for('home'))
    
 if __name__ == "__main__":

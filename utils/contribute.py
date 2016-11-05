@@ -17,5 +17,4 @@ def addToStory(storyid):
             #redirect(url_for('viewstory'))
             return render_template('viewStory.html', text = 'nothing here yet...')
         else:
-            storyobj = {'sid': str(storyid)}
-            return render_template('contributeForm.html')
+            return render_template('contributeForm.html', id = storyid)
