@@ -102,10 +102,7 @@ def addtoDB():
     #add to proper story by proper user
     p = 0
     cmd = "INSERT INTO posts VALUES(" + "'" + session['user'] + "'" + "," + "'" + str(p) + "'" + "," + "'" + str(storyid) + "'" + "," + "'" + content + "')"
-    try:
-        c.execute(cmd)
-    except:
-        print cmd
+    c.execute(cmd)
 
     db.commit()
     db.close()
