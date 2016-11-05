@@ -88,6 +88,24 @@ def logout():
 def add(storyid):
     return contribute.addToStory(storyid)
 
+
+@app.route('/addtoDB/', methods = ['POST'])
+def addtoDB():
+    storyid = request.form['id']
+    content = request.form['newText']
+    f = 'storymaker.db'
+    db = sqlite3.connect(f)
+    c = db.cursor()
+    q = "select * from posts where sid == " + storyid
+    sel = c.execute(q)
+    p = 0
+    for record in sel:
+        p = record[1]
+    p+=1
+    cmd = "insert into posts values(" + "'" + session['user'] + "'" + "," + "'" + str(p) + "'" + "," + "'" + storyid + "'" + "," + "'" + content + "')"
+    c.execute(cmd)
+    return redirect(url_for('home'))
+   
 if __name__ == "__main__":
     app.debug = True
     app.run()
