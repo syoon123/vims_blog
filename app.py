@@ -90,9 +90,8 @@ def add(storyid):
 
 @app.route('/addtoDB/', methods=['POST'])
 def addtoDB():
-    storyid = 2
+    storyid = request.form['sid']
     content = request.form['newText']
-    print content
     db = sqlite3.connect(f) 
     c = db.cursor()  
     p = 0
@@ -100,7 +99,6 @@ def addtoDB():
     c.execute(cmd)
     db.commit()
     db.close()
-    print "added to db"
     return redirect(url_for('home'))
    
 if __name__ == "__main__":
