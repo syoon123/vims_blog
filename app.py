@@ -93,14 +93,19 @@ def addtoDB():
     storyid = request.form['sid']
     content = request.form['newText']
 
+    #deal w/apostrophes
+    content = content.replace("'","''")
+
     db = sqlite3.connect(f)
     c = db.cursor()
 
     #add to proper story by proper user
     p = 0
     cmd = "INSERT INTO posts VALUES(" + "'" + session['user'] + "'" + "," + "'" + str(p) + "'" + "," + "'" + str(storyid) + "'" + "," + "'" + content + "')"
-
-    c.execute(cmd)
+    try:
+        c.execute(cmd)
+    except:
+        print cmd
 
     db.commit()
     db.close()
