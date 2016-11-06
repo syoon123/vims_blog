@@ -33,7 +33,7 @@ def submit(post, username):
         c.execute(q)
         db.commit()
         db.close()
-        return "post succesfully inputted"
+        #return redirect(url_for("
 
 
    

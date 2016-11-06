@@ -102,7 +102,8 @@ def result():
     r = request.form
     post = r['post']
     user = session['user']
-    return newStory.submit(post, user)
+    newStory.submit(post, user)
+    return redirect(url_for('home'))
         
 @app.route('/contribute/<int:storyid>')
 def add(storyid):
@@ -127,6 +128,8 @@ def addtoDB():
     db.commit()
     db.close()
     return redirect(url_for('home'))
+
+
 
 if __name__ == "__main__":
     app.debug = True
