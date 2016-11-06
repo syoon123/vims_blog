@@ -39,17 +39,38 @@ app = Flask(__name__)
 app.secret_key = '<j\x9ch\x80+\x0b\xd2\xb6\n\xf7\x9dj\xb8\x0fmrO\xce\xcd\x19\xd49\xe5S\x1f^\x8d\xb8"\x89Z'
 
 def register(username, password):
-    #check if requested username is in TABLE user of database
-    return "You are already registered."
+    db = sqlite3.connect(f)
+    c = db.cursor()
+    query = "SELECT user FROM user";
+    dbUsers = c.execute(query)
+    for entry in dbUsers:
+        print(entry)
+        if (entry[0] == username): return "You are already registered."
     #else write in new entry into database (hash pass)
+
+    #debug: not inserting new info into db
+    hashedPass = hashlib.sha1(password).hexdigest()
+    insertQuery = "INSERT INTO user VALUES(\'%s\', \'%s\')" %(username,hashedPass)
+    c.execute(insertQuery)
     return "You are now successfully registered."
 
 def checkLogin(username,password):
-    hash = hashlib.sha1(password).hexdigest()
+    hashedPass = hashlib.sha1(password).hexdigest()
     ## check database if user-pass is correct
     #  if correct login -> return ""
     #  if no such username -> return "Incorrect Username"
     #  if incorrect pass -> return "Incorrect password!"
+    db = sqlite3.connect(f)
+    c = db.cursor()
+    query = "SELECT * FROM user";
+    dbUserPass = c.execute(query)
+    for entry in dbUserPass:
+        if (entry[0] == username):
+            if (entry[1] == hashedPass): return "a"
+        else: return "Incorrect Password"
+    return "Incorrect Username"
+
+
 
 @app.route("/")
 @app.route("/homepage/")
@@ -65,18 +86,18 @@ def login():
     return render_template("loginTemplate.html", status = "")
 
 #is there a way get rid of /authentication/ and just have everything in /login/ ?
-@app.route("/authentication/", methods = ["GET", "POST"])  #idk which it should be
+@app.route("/authentication/", methods = ["POST"])
 def authentication():
     if request.form["enter"] == "Register":
         register_message = register(request.form["user"],request.form["pass"])
         return render_template("loginTemplate.html", status = register_message)
     if request.form["enter"] == "Login":
         session["user"] = request.form["user"]
-        #login_message = checkLogin(request.form["user"],request.form["pass"])
+        login_message = checkLogin(request.form["user"],request.form["pass"])
 
         ##if correct login -> homepage
-        return render_template("homepageTemplate.html")
-
+        if (login_message == "a"): return redirect(url_for("homepage"))
+    else: return render_template("loginTemplate.html", status = login_message)
         ##if incorrect login -> /login/   status = loginMsg
 
 @app.route("/logout/")
