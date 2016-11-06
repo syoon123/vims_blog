@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, url_for, session, redirect
 import hashlib, sqlite3
-from utils import contribute
+from utils import contribute, newStory
 
 f="storymaker.db"
 
@@ -93,6 +93,17 @@ def logout():
     session.pop("user")
     return redirect(url_for("login"))
 
+@app.route("/makePost/")
+def post():
+    return render_template("make_post.html")
+    
+@app.route("/postResult/", methods = "[POST]")
+def result():
+    r = request.form
+    post = r['post']
+    user = session['user']
+    return newStory.submit(post, user)
+        
 @app.route('/contribute/<int:storyid>')
 def add(storyid):
     return contribute.addToStory(storyid)
