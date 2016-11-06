@@ -97,7 +97,7 @@ def logout():
 def post():
     return render_template("make_post.html")
     
-@app.route("/postResult/", methods = "[POST]")
+@app.route("/postResult/", methods = ['POST'])
 def result():
     r = request.form
     post = r['post']
