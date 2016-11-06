@@ -8,10 +8,10 @@ import sqlite3
 #db.close()
 
 def getID():
-    f = "sstorymaker.db"
+    f = "storymaker.db"
     db = sqlite3.connect(f)
     c = db.cursor()
-    cmd = "SELECT story_id FROM posts WHERE post_id = 0;"
+    cmd = "SELECT sid FROM posts WHERE pid = 0;"
     stories = c.execute(cmd)
     i = 0
     for story in stories:

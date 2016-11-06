@@ -6,34 +6,34 @@ f="storymaker.db"
 
 #db = sqlite3.connect(f) #open if f exists, otherwise create
 #c = db.cursor()    #facilitate db ops
-
-#table already created, debug w/out
-
-# #Initializing Tables: should be executed once (?)
-# q = "CREATE TABLE user (user TEXT, pass TEXT)"
-# c.execute(q)
 #
-# q = "CREATE TABLE posts (user TEXT, pid INTEGER, sid INTEGER, content TEXT)"
-# c.execute(q)
+##table already created, debug w/out
+#
+# #Initializing Tables: should be executed once (?)
+#q = "CREATE TABLE user (user TEXT, pass TEXT)"
+#c.execute(q)
+#
+#q = "CREATE TABLE posts (user TEXT, pid INTEGER, sid INTEGER, content TEXT)"
+#c.execute(q)
 #
 # #test data
-# q = "INSERT INTO user VALUES(\'mcVans\', \'vanna\')"
-# c.execute(q)
-# q = "INSERT INTO user VALUES(\'mcKissy\', \'issac\')"
-# c.execute(q)
-# q = "INSERT INTO user VALUES(\'mcCow\', \'michael\')"
-# c.execute(q)
-# q = "INSERT INTO user VALUES(\'mcYoonibrow\', \'sarah\')"
-# c.execute(q)
+#q = "INSERT INTO user VALUES(\'mcVans\', \'vanna\')"
+#c.execute(q)
+#q = "INSERT INTO user VALUES(\'mcKissy\', \'issac\')"
+#c.execute(q)
+#q = "INSERT INTO user VALUES(\'mcCow\', \'michael\')"
+#c.execute(q)
+#q = "INSERT INTO user VALUES(\'mcYoonibrow\', \'sarah\')"
+#c.execute(q)
 #
-# q = "INSERT INTO posts VALUES(\'mcVans\', 0,0,\'hello\')"
-# c.execute(q)
-# q = "INSERT INTO posts VALUES(\'mcKissy\', 1,0,\'my\')"
-# c.execute(q)
-# q = "INSERT INTO posts VALUES(\'mcCow\', 1,1,\'name\')"
-# c.execute(q)
-# q = "INSERT INTO posts VALUES(\'mcYoonibrow\', 2,0,\'is\')"
-# c.execute(q)
+#q = "INSERT INTO posts VALUES(\'mcVans\', 0,0,\'hello\')"
+#c.execute(q)
+#q = "INSERT INTO posts VALUES(\'mcKissy\', 1,0,\'my\')"
+#c.execute(q)
+#q = "INSERT INTO posts VALUES(\'mcCow\', 1,1,\'name\')"
+#c.execute(q)
+#q = "INSERT INTO posts VALUES(\'mcYoonibrow\', 2,0,\'is\')"
+#c.execute(q)
 
 app = Flask(__name__)
 app.secret_key = '<j\x9ch\x80+\x0b\xd2\xb6\n\xf7\x9dj\xb8\x0fmrO\xce\xcd\x19\xd49\xe5S\x1f^\x8d\xb8"\x89Z'
@@ -93,7 +93,7 @@ def logout():
     session.pop("user")
     return redirect(url_for("login"))
 
-@app.route("/makePost/")
+@app.route("/newstory/")
 def post():
     return render_template("make_post.html")
     
