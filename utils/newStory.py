@@ -24,16 +24,12 @@ def submit(post, username):
     story_id = getID()
     db = sqlite3.connect(f)
     c = db.cursor()
-    if len(post) > 1000:
-        return "post is too long, please resubmit"
-    else:
-        text = '''"''' + post + '''"'''
-        user = '''"''' + username + '''"'''
-        q = "INSERT INTO posts VALUES(%s, %i, %i, %s)" %(user,0,story_id,text)
-        c.execute(q)
-        db.commit()
-        db.close()
-        #return redirect(url_for("
+    text = '''"''' + post + '''"'''
+    user = '''"''' + username + '''"'''
+    q = "INSERT INTO posts VALUES(%s, %i, %i, %s)" %(user,0,story_id,text)
+    c.execute(q)
+    db.commit()
+    db.close()
 
 
    

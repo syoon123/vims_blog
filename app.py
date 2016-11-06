@@ -102,10 +102,8 @@ def result():
     r = request.form
     post = r['post']
     user = session['user']
-    if newStory.submit(post, user) == True:
-        return redirect(url_for('home'))
-    else:
-        return redirect(url_for('post'))
+    newStory.submit(post, user)
+    return redirect(url_for('home'))
         
 @app.route('/contribute/<int:storyid>')
 def add(storyid):
