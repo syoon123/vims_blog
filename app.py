@@ -70,7 +70,23 @@ def checkLogin(username,password):
 def home():
     if "user" not in session:
         return redirect(url_for("login"))
-    return render_template("homepageTemplate.html")
+
+    #get links to stories
+    linkStr = ""
+    allStoryStr = ""
+    db = sqlite3.connect(f)
+    c = db.cursor()
+    d = db.cursor()
+    query = "SELECT sid FROM posts WHERE user = %s"%(session["user"])
+    storyHistory = c.execute(query)
+    for entry in storyHistory:
+        linkStr+= "<a href = '%s'></a><br>"%(entry[0])
+    query = "SELECT sid FROM posts"
+    allStories = d.execute(query)
+    for entry in allStories:
+        allStoryStr+= "a href = '%s'></a><br>"%(entry[0])
+
+    return render_template("homepageTemplate.html", storyHistory = linkStr, allStories = allStoryStr)
 
 @app.route("/login/", methods = ["GET","POST"])
 def login():
