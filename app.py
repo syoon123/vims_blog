@@ -41,36 +41,29 @@ app.secret_key = '<j\x9ch\x80+\x0b\xd2\xb6\n\xf7\x9dj\xb8\x0fmrO\xce\xcd\x19\xd4
 def register(username, password):
     db = sqlite3.connect(f)
     c = db.cursor()
-    query = "SELECT user FROM user";
+    query = "SELECT user FROM users";
     dbUsers = c.execute(query)
     for entry in dbUsers:
-        print(entry)
-        if (entry[0] == username): return "You are already registered."
-    #else write in new entry into database (hash pass)
-
-    #debug: not inserting new info into db
+        if (entry[0] == username): return "You are already registered."  #check if username is taken
     hashedPass = hashlib.sha1(password).hexdigest()
-    insertQuery = "INSERT INTO user VALUES(\'%s\', \'%s\')" %(username,hashedPass)
+    insertQuery = "INSERT INTO users VALUES(\'%s\',\'%s\')"%(username,hashedPass)
+    c = db.cursor()
     c.execute(insertQuery)
+    db.commit()
+    db.close()
     return "You are now successfully registered."
 
 def checkLogin(username,password):
     hashedPass = hashlib.sha1(password).hexdigest()
-    ## check database if user-pass is correct
-    #  if correct login -> return ""
-    #  if no such username -> return "Incorrect Username"
-    #  if incorrect pass -> return "Incorrect password!"
     db = sqlite3.connect(f)
     c = db.cursor()
-    query = "SELECT * FROM user";
+    query = "SELECT * FROM users";
     dbUserPass = c.execute(query)
     for entry in dbUserPass:
         if (entry[0] == username):
-            if (entry[1] == hashedPass): return "a"
-        else: return "Incorrect Password"
+            if (entry[1] == hashedPass): return ""
+            else: return "Incorrect Password"
     return "Incorrect Username"
-
-
 
 @app.route("/")
 @app.route("/homepage/")
@@ -79,27 +72,22 @@ def home():
         return redirect(url_for("login"))
     return render_template("homepageTemplate.html")
 
-@app.route("/login/")
+@app.route("/login/", methods = ["GET","POST"])
 def login():
     if "user" in session:
-        return redirect(url_for("/"))
-    return render_template("loginTemplate.html", status = "")
-
-#is there a way get rid of /authentication/ and just have everything in /login/ ?
-@app.route("/authentication/", methods = ["POST"])
-def authentication():
+        return redirect(url_for("home"))
+    if request.method == "GET":
+        return render_template("loginTemplate.html", status = "")
     if request.form["enter"] == "Register":
         register_message = register(request.form["user"],request.form["pass"])
         return render_template("loginTemplate.html", status = register_message)
     if request.form["enter"] == "Login":
-        session["user"] = request.form["user"]
         login_message = checkLogin(request.form["user"],request.form["pass"])
-
-        ##if correct login -> homepage
-        if (login_message == "a"): return redirect(url_for("homepage"))
-    else: return render_template("loginTemplate.html", status = login_message)
-        ##if incorrect login -> /login/   status = loginMsg
-
+        if (login_message == ""): 
+            session["user"] = request.form["user"]
+            return redirect(url_for("home"))
+        return render_template("loginTemplate.html", status = login_message)
+    
 @app.route("/logout/")
 def logout():
     session.pop("user")
@@ -122,7 +110,7 @@ def addtoDB():
 
     #add to proper story by proper user
     p = 0
-    cmd = "INSERT INTO posts VALUES(" + "'" + session['user'] + "'" + "," + "'" + str(p) + "'" + "," + "'" + str(storyid) + "'" + "," + "'" + content + "')"
+    cmd = "INSERT INTO posts VALUES(" + "'" + session['user'] + "'" + "," + "'" + str(p) + "'" + "," + "'" + str(storyid) + "'" + "," + "'" + content + "')" #%(session['user'],str(p),str(storyid),content)
     c.execute(cmd)
 
     db.commit()

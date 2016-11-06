@@ -1,20 +1,20 @@
-import sqlite3
+import hashlib,sqlite3
 
 f="storymaker.db"
 
 db = sqlite3.connect(f) #open if f exists, otherwise create
 c = db.cursor()    #facilitate db ops
 
-q = "CREATE TABLE user (user TEXT, pass TEXT)"
+q = "CREATE TABLE users (user TEXT, pass TEXT)"
 c.execute(q)
 
-q = "INSERT INTO user VALUES(\'mcVans\', \'vanna\')"
+q = "INSERT INTO users VALUES(\'mcVans\', \'%s\')" %(hashlib.sha1("vanna").hexdigest())
 c.execute(q)
-q = "INSERT INTO user VALUES(\'mcKissy\', \'issac\')"
+q = "INSERT INTO users VALUES(\'mcKissy\', \'%s\')"%(hashlib.sha1("issac").hexdigest())
 c.execute(q)
-q = "INSERT INTO user VALUES(\'mcCow\', \'michael\')"
+q = "INSERT INTO users VALUES(\'mcCow\', \'%s\')"%(hashlib.sha1("michael").hexdigest())
 c.execute(q)
-q = "INSERT INTO user VALUES(\'mcYoonibrow\', \'sarah\')"
+q = "INSERT INTO users VALUES(\'mcYoonibrow\', \'%s\')"%(hashlib.sha1("sarah").hexdigest())
 c.execute(q)
 
 q = "CREATE TABLE posts (user TEXT, pid INTEGER, sid INTEGER, content TEXT)"
