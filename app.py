@@ -66,7 +66,7 @@ def home():
     allStoryStr += "<center>"
 
     for entry in allStories:
-        allStoryStr+= "<a href = '%s'>%s</a><br>"%(entry[0],entry[0])
+        allStoryStr+= "<a href = '/contribute/%s'>%s</a><br>"%(entry[0],entry[0])
 
     allStoryStr += "</center>"
 
