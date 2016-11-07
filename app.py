@@ -61,7 +61,7 @@ def home():
     for entry in storyHistory:
         linkStr+= "<a href = '%s'></a><br>"%(entry[0])
 
-    query = "SELECT sid FROM posts"
+    query = "SELECT sid FROM posts WHERE pid = 0"
     allStories = c.execute(query)
     allStoryStr += "<center>"
 
