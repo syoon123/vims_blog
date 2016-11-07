@@ -46,21 +46,15 @@ def home():
         return redirect(url_for("login"))
 
     #get links to stories
-    linkStr = ""
+    linkStr = "<center>"
     allStoryStr = ""
 
     db = sqlite3.connect(f)
     c = db.cursor()
-    query = "select sid from posts where user = " + session['user']
-    try:
-        storyHistory = c.execute(query)
-    #if you have no stories?
-    except:
-        storyHistory = ""
-
+    query = "SELECT sid,title FROM posts WHERE user = " + '''"''' +session['user']+ '''"'''  
+    storyHistory = c.execute(query)
     for entry in storyHistory:
-        linkStr+= "<a href = '%s'></a><br>"%(entry[0])
-
+        linkStr+= "<a href = '/contribute/%s'>%s</a><br>"%(entry[0],entry[1])
     query = "SELECT sid,title FROM posts WHERE pid = 0"
     allStories = c.execute(query)
     allStoryStr += "<center>"
@@ -69,7 +63,7 @@ def home():
         allStoryStr+= "<a href = '/contribute/%s'>%s</a><br>"%(entry[0],entry[1])
 
     allStoryStr += "</center>"
-
+    linkStr += "</center>"
     return render_template("homepageTemplate.html", storyHistory = linkStr, allStories = allStoryStr)
 
 @app.route("/login/", methods = ["GET","POST"])
