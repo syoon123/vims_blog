@@ -36,5 +36,4 @@ def addToStory(storyid):
         c.execute(q)
         out = c.fetchall()
         t = out[0][0]
-        print("title:" + t)
         return render_template('contributeForm.html', id = storyid, storytitle = t)
