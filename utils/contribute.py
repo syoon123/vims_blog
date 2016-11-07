@@ -27,7 +27,7 @@ def addToStory(storyid):
 
                 for piece in alltext:
                     t = piece[0]
-                    post += " " + piece[1]                    
+                    post += " " + piece[1]
 
                 return render_template('viewStory.html', text = post, title = t)
 
@@ -36,4 +36,15 @@ def addToStory(storyid):
         c.execute(q)
         out = c.fetchall()
         t = out[0][0]
-        return render_template('contributeForm.html', id = storyid, storytitle = t)
+
+        q = "select content, pid from posts where sid = " + str(storyid)
+        c.execute(q)
+        out = c.fetchall()
+        prev = ""
+        i = -1
+        for p in out:
+            if p[1] > i:
+                i = p[1]
+                prev = p[0]
+
+        return render_template('contributeForm.html', id = storyid, storytitle = t, latest = prev)
