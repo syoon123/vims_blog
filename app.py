@@ -100,9 +100,10 @@ def post():
 @app.route("/postResult/", methods = ['POST'])
 def result():
     r = request.form
+    title = r['title']
     post = r['post']
     user = session['user']
-    newStory.submit(post, user)
+    newStory.submit(title, post, user)
     return redirect(url_for('home'))
 
 @app.route('/contribute/<int:storyid>')
@@ -111,9 +112,10 @@ def add(storyid):
 
 @app.route('/addtoDB/', methods=['POST'])
 def addtoDB():
-    storyid = request.form['sid']
-    content = request.form['newText']
-
+    storyid = int(request.form['sid'])
+    content = '''"''' +request.form['newText']+'''"'''
+    title = '''"''' +request.form['title']+'''"'''
+    user = '''"''' +session['user']+'''"'''
     #deal w/apostrophes
     content = content.replace("'","''")
 
@@ -122,7 +124,16 @@ def addtoDB():
 
     #add to proper story by proper user
     p = 0
-    cmd = "INSERT INTO posts VALUES(" + "'" + session['user'] + "'" + "," + "'" + str(p) + "'" + "," + "'" + str(storyid) + "'" + "," + "'" + content + "')" #%(session['user'],str(p),str(storyid),content)
+
+    q = "select pid from posts where sid = " + str(storyid)
+    sel = c.execute(q)
+
+    for record in sel:
+        p = record[0]
+
+    p+=1
+    cmd = "INSERT INTO posts VALUES( %s, %d, %d, %s, %s )" %(user,p,storyid,title,content)
+    print(cmd)
     c.execute(cmd)
 
     db.commit()

@@ -19,18 +19,15 @@ def getID():
     db.close()
     return i
     
-def submit(post, username):
+def submit(title, post, username):
     f = "storymaker.db"
     story_id = getID()
     db = sqlite3.connect(f)
     c = db.cursor()
     text = '''"''' + post + '''"'''
     user = '''"''' + username + '''"'''
-    q = "INSERT INTO posts VALUES(%s, %i, %i, %s)" %(user,0,story_id,text)
+    t = '''"''' + title + '''"'''
+    q = "INSERT INTO posts VALUES(%s, %i, %i, %s, %s)" %(user,0,story_id,t,text)
     c.execute(q)
     db.commit()
     db.close()
-
-
-   
-

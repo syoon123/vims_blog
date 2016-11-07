@@ -6,11 +6,14 @@
   </head>
   <body>
     <div class="head"><br><br><center>
-    <h1>Make New Story></h1>
+    <h1>Make New Story</h1>
     <br><br></div>
     <div class = "body"><br><br><center>
-    <h3>Stories are limited to 1000 characters</h3>
+	<form name="input" method="POST" action="/postResult/">
+	<input type="text" name="title">
+	<h3>Stories are limited to 1000 characters</h3>
     <textarea maxlength = "1000" name = "post" cols = "50" rows = "15"></textarea> 
     <input type = "submit" name = "submit" value = "Submit"></div>
+    </form>
   </body>
 </html>

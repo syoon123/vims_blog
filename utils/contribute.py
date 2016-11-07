@@ -21,13 +21,20 @@ def addToStory(storyid):
         for record in sel:
             if record[0]==session['user']:
                 post = ""
-                q = "select content from posts where sid = " + str(storyid)
+                t = ""
+                q = "select title, content from posts where sid = " + str(storyid)
                 alltext = c.execute(q)
 
                 for piece in alltext:
-                    post += " " + piece[0]
+                    t = piece[0]
+                    post += " " + piece[1]                    
 
-                return render_template('viewStory.html', text = post)
+                return render_template('viewStory.html', text = post, title = t)
 
         #add new
-        return render_template('contributeForm.html', id = storyid)
+        q = "select title from posts where sid = " + str(storyid)
+        c.execute(q)
+        out = c.fetchall()
+        t = out[0][0]
+        print("title:" + t)
+        return render_template('contributeForm.html', id = storyid, storytitle = t)
